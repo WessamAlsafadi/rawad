@@ -1,9 +1,15 @@
 import streamlit as st
 from groq import Groq
 import re
+import os
+from dotenv import load_dotenv
+
+# Load API key from .env
+load_dotenv()
+api_key = os.getenv("GROQ_API_KEY")
 
 # Initialize Groq client
-client = Groq(api_key="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")
+client = Groq(api_key=api_key)
 
 st.set_page_config(page_title="AI Ad Script Generator", layout="centered")
 
@@ -45,8 +51,6 @@ Each section should be labeled clearly.
             ]
         )
         raw_output = completion.choices[0].message.content
-
-        # Remove <think>...</think> tags if present
         cleaned_output = re.sub(r"<think>.*?</think>", "", raw_output, flags=re.DOTALL).strip()
 
         st.subheader("🎥 Your Generated Ad Script:")
